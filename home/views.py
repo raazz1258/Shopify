@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 from item.models import Category, Item
 from .form import SignupForm
+from django.contrib.auth.models import User
 # Create your views here.
 def index(request):
     items = Item.objects.filter(is_sold=False)[0:6]
     categories = Category.objects.all()
+    user = User.objects.all()
 
     return render(request, 'index.html', {
         'categories': categories,
@@ -26,3 +29,6 @@ def register(request):
         'form': form
     })
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
